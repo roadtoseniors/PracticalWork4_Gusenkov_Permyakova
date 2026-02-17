@@ -1,0 +1,156 @@
+﻿<wpfLikeAvaloniaNavigation:Page xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wpfLikeAvaloniaNavigation="clr-namespace:WpfLikeAvaloniaNavigation;assembly=WpfLikeAvaloniaNavigation"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="PracticalWork4_Gusenkov_Permyakova.Pages.FuncThreePage" 
+             x:CompileBindings="False"
+             Background="#222831" Foreground="#EEEEEE">
+    
+    <Grid RowDefinitions="*" ColumnDefinitions="300,*" Margin="5">
+        
+        <!-- Левая панель с параметрами -->
+        <Border Grid.Column="0" 
+                BorderThickness="2" 
+                BorderBrush="#393e46" 
+                Margin="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="8" Margin="10">
+                    <TextBlock Text="Параметры:" FontSize="18" FontWeight="Bold"/>
+                    
+                    <TextBlock Text="b (коэффициент)" FontSize="13"/>
+                    <TextBox BorderBrush="#393e46" 
+                             Watermark="По умолчанию 2.3" 
+                             x:Name="FuncThree_b" 
+                             Text="2.3"
+                             Height="30"/>
+                    
+                    <TextBlock Text="x₀ (начальное значение)" FontSize="13"/>
+                    <TextBox BorderBrush="#393e46" 
+                             Watermark="По умолчанию -1" 
+                             x:Name="FuncThree_x0" 
+                             Text="-1"
+                             Height="30"/>
+                    
+                    <TextBlock Text="xₖ (конечное значение)" FontSize="13"/>
+                    <TextBox BorderBrush="#393e46" 
+                             Watermark="По умолчанию 4" 
+                             x:Name="FuncThree_xk" 
+                             Text="4"
+                             Height="30"/>
+                    
+                    <TextBlock Text="dx (шаг)" FontSize="13"/>
+                    <TextBox BorderBrush="#393e46" 
+                             Watermark="По умолчанию 0.5" 
+                             x:Name="FuncThree_dx" 
+                             Text="0.5"
+                             Height="30"/>
+                    
+                    <Button Content="Вычислить" 
+                            Foreground="#EEEEEE" 
+                            Background="#00adb5" 
+                            x:Name="Find" 
+                            Click="Find_OnClick" 
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Margin="0,15,0,0"
+                            Height="40"
+                            FontSize="14"/>
+                    
+                    <Button Content="Очистить" 
+                            Foreground="#EEEEEE" 
+                            Background="#00adb5" 
+                            x:Name="Clean" 
+                            Click="Clean_OnClick" 
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            Height="40"
+                            FontSize="14"/>
+                    
+                    <Button Content="Назад" 
+                            Foreground="#EEEEEE" 
+                            Background="#00adb5" 
+                            x:Name="Back" 
+                            Click="Back_OnClick" 
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            Height="40"
+                            FontSize="14"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        
+        <!-- Правая панель с результатами и графиком -->
+        <Grid Grid.Column="1" 
+              RowDefinitions="Auto,0.8*,1.5*" 
+              Margin="5">
+            
+            <!-- Изображение формулы -->
+            <Border Grid.Row="0" 
+                    BorderThickness="2" 
+                    BorderBrush="#393e46"
+                    Margin="5"
+                    Padding="10,8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
+                <Image Source="C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\Images\FuncThree.jpg" 
+                       MaxWidth="500" 
+                       MaxHeight="90"
+                       Stretch="Uniform"/>
+            </Border>
+            
+            <!-- Таблица результатов -->
+            <Border Grid.Row="1" 
+                    BorderThickness="2" 
+                    BorderBrush="#393e46"
+                    Margin="5">
+                <DockPanel Margin="10">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="Результаты вычислений:" 
+                               FontSize="16" 
+                               FontWeight="Bold"
+                               Margin="0,0,0,8"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
+                        <TextBox FontFamily="Consolas" 
+                                 FontSize="13" 
+                                 TextWrapping="NoWrap" 
+                                 IsReadOnly="True" 
+                                 Background="#2d3339" 
+                                 Foreground="#EEEEEE"
+                                 BorderBrush="#393e46" 
+                                 x:Name="FuncThree_result"
+                                 AcceptsReturn="True"/>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+            
+            <!-- График функции -->
+            <Border Grid.Row="2" 
+                    BorderThickness="2" 
+                    BorderBrush="#393e46"
+                    Margin="5">
+                <DockPanel Margin="10">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="График функции y = 0.0025bx³ + √x + e^0.82" 
+                               FontSize="16" 
+                               FontWeight="Bold"
+                               Margin="0,0,0,8"/>
+                    
+                    <lvc:CartesianChart DockPanel.Dock="Bottom"
+                                       Series="{Binding Series}" 
+                                       XAxes="{Binding XAxes}"
+                                       YAxes="{Binding YAxes}"
+                                       MinHeight="300"
+                                       Background="#2d3339"
+                                       x:Name="FuncThree_chart"/>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</wpfLikeAvaloniaNavigation:Page>

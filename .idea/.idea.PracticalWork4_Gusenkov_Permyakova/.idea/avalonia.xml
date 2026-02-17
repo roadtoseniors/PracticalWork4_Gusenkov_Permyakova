@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="PracticalWork4_Gusenkov_Permyakova/App.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+        <entry key="PracticalWork4_Gusenkov_Permyakova/MainWindow.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+        <entry key="PracticalWork4_Gusenkov_Permyakova/Pages/FuncOnePage.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+        <entry key="PracticalWork4_Gusenkov_Permyakova/Pages/FuncThreePage.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+        <entry key="PracticalWork4_Gusenkov_Permyakova/Pages/FuncTwoPage.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+        <entry key="PracticalWork4_Gusenkov_Permyakova/Pages/NavigationPage.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+        <entry key="PracticalWork4_Gusenkov_Permyakova/Pages/SimplePage.axaml" value="PracticalWork4_Gusenkov_Permyakova/PracticalWork4_Gusenkov_Permyakova.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

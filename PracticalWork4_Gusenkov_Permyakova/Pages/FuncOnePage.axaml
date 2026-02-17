@@ -1,0 +1,32 @@
+﻿<wpfLikeAvaloniaNavigation:Page xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wpfLikeAvaloniaNavigation="clr-namespace:WpfLikeAvaloniaNavigation;assembly=WpfLikeAvaloniaNavigation"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PracticalWork4_Gusenkov_Permyakova.Pages.FuncOnePage" Background="#222831" Foreground="#EEEEEE">
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto, *" Margin="10,10,10,10">
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Image Source="C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\Images\photo_2026-02-12_10-52-52.jpg" Width="400" Height="150"/>
+        </StackPanel>
+        <Border Margin="10,10,10,10" Grid.RowSpan="2" Grid.Column="0" BorderThickness="4" BorderBrush="#393e46">
+            <StackPanel Spacing="10" Margin="10,10,10,10">
+                <TextBlock Text="x"/>
+                <TextBox BorderBrush="#393e46" Watermark="Введите x" x:Name="FuncOne_x"/>
+                <TextBlock Text="y"/>
+                <TextBox BorderBrush="#393e46" Watermark="Введите y" x:Name="FuncOne_y"/>
+                <TextBlock Text="z"/>
+                <TextBox BorderBrush="#393e46" Watermark="Введите z" x:Name="FuncOne_z"/>
+                <Button Content="Вычислить" Width="300" Foreground="#EEEEEE"  Background="#00adb5" x:Name="Find" Click="Find_OnClick" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Button Content="Очистить" Width="300" Foreground="#EEEEEE"  Background="#00adb5" x:Name="Clean" Click="Clean_OnClick" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Button Content="Назад" Width="300" Foreground="#EEEEEE"  Background="#00adb5" x:Name="Back" Click="Back_OnClick" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <Border Margin="10,10,10,10" Grid.Row="1" Grid.Column="1" BorderThickness="4" BorderBrush="#393e46">
+            <StackPanel Spacing="67" Margin="10,10,10,10">
+                <TextBlock Text="Ответ:" FontSize="20" FontWeight="Bold"/>
+                <TextBlock FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="FuncOne_result"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</wpfLikeAvaloniaNavigation:Page>
