@@ -190,7 +190,4 @@ d:DesignHeight="800"   <!-- Высота окна -->
 ---
 
 <div align="center">
-
-[⬆ Вернуться к началу](#practicalwork4_gusenkov_permyakova)
-
 </div>
