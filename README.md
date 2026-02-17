@@ -31,19 +31,20 @@
 
 **Вариант №9**  
 **Функция 1**  
-<div align="center">
-  <img src="Example1.gif" alt="Функция 1" width="300">
+<div align="left">
+  <img src="FuncOne.jpg" alt="Функция 1" width="300">
 </div>
 
 **Функция 2**  
-<div align="center">
-  <img src="Example1.gif" alt="Функция 2" width="300">
+<div align="left">
+  <img src="FuncTwo.jpg" alt="Функция 2" width="300">
 </div>
 
 **Функция 3**  
-<div align="center">
-  <img src="Example1.gif" alt="Функция 3" width="300">
+<div align="left">
+  <img src="FuncThree.jpg" alt="Функция 3" width="300">
 </div>
+
 ---
 
 ## Пример работы приложения
