@@ -27,6 +27,25 @@
 
 ---
 
+## Вариант задания и скриншоты функций
+
+**Вариант №9**  
+**Функция 1**  
+<div align="center">
+  <img src="Example1.gif" alt="Функция 1" width="300">
+</div>
+
+**Функция 2**  
+<div align="center">
+  <img src="Example1.gif" alt="Функция 2" width="300">
+</div>
+
+**Функция 3**  
+<div align="center">
+  <img src="Example1.gif" alt="Функция 3" width="300">
+</div>
+---
+
 ## Пример работы приложения
 
 <div align="center">
