@@ -30,7 +30,7 @@
 ## Пример работы приложения
 
 <div align="center">
-  <img src="Example.gif" alt="Демонстрация работы приложения" width="800">
+  <img src="Example1.gif" alt="Демонстрация работы приложения" width="800">
 </div>
 
 ---
