@@ -98,7 +98,7 @@
                     Padding="10,8"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top">
-                <Image Source="C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\Images\FuncThree.jpg" 
+                <Image Source="../Images/FuncThree.jpg" 
                        MaxWidth="500" 
                        MaxHeight="90"
                        Stretch="Uniform"/>

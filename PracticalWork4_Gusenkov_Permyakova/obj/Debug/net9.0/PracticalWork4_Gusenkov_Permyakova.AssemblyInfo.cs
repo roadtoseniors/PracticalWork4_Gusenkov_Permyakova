@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PracticalWork4_Gusenkov_Permyakova")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdddcb4305610db9300f69649d6f5e15fe78a844")]
 [assembly: System.Reflection.AssemblyProductAttribute("PracticalWork4_Gusenkov_Permyakova")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PracticalWork4_Gusenkov_Permyakova")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -76,3 +76,4 @@ C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWor
 C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\bin\Debug\net9.0\LiveChartsCore.SkiaSharpView.dll
 C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\bin\Debug\net9.0\LiveChartsCore.SkiaSharpView.Avalonia.dll
 C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\bin\Debug\net9.0\SkiaSharp.HarfBuzz.dll
+C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\obj\Debug\net9.0\PracticalWork4_Gusenkov_Permyakova.sourcelink.json

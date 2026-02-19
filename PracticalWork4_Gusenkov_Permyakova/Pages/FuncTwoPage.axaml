@@ -7,7 +7,7 @@
              x:Class="PracticalWork4_Gusenkov_Permyakova.Pages.FuncTwoPage" Background="#222831" Foreground="#EEEEEE">
     <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto, *" Margin="10,10,10,10">
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <Image Source="C:\Users\kekmaster\RiderProjects\PracticalWork4_Gusenkov_Permyakova\PracticalWork4_Gusenkov_Permyakova\Images\FuncTwo.jpg" Width="400" Height="150"/>
+            <Image Source="../Images/FuncTwo.jpg" Width="400" Height="150"/>
         </StackPanel>
         <Border Margin="10,10,10,10" Grid.RowSpan="2" Grid.Column="0" BorderThickness="4" BorderBrush="#393e46">
             <StackPanel Spacing="10" Margin="10,10,10,10">
