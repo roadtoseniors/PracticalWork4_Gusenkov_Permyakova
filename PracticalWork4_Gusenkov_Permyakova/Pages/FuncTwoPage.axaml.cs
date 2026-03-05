@@ -14,62 +14,61 @@ public partial class FuncTwoPage : Page
         InitializeComponent();
     }
 
-    private void Find_OnClick(object? sender, RoutedEventArgs e)
+    public bool Calculate(double x, double p, double fx)
     {
-        if (String.IsNullOrWhiteSpace(FuncTwo_x.Text) || String.IsNullOrWhiteSpace(FuncTwo_p.Text) || String.IsNullOrWhiteSpace(FuncTwo_fx.Text))
+        double absP = Math.Abs(p);
+        double l;
+
+        if (x > absP)
         {
-            var mainWindow = (Application.Current.ApplicationLifetime
-                as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            var dialogg = new SimplePage("Заполните все поля");
-            dialogg.ShowDialog(mainWindow);
+            l = 2 * Math.Pow(fx, 3) + 3 * Math.Pow(p, 2);
+        }
+        else if (Math.Abs(x - absP) < 0.0001)
+        {
+            l = Math.Pow(fx - p, 2);
+        }
+        else if (x > 3 && x < absP)
+        {
+            l = Math.Abs(fx - p);
         }
         else
         {
-            if (double.TryParse(FuncTwo_x.Text, out double x) && 
-                double.TryParse(FuncTwo_p.Text, out double p) && 
-                double.TryParse(FuncTwo_fx.Text, out double fx))
-            {
-                double l;
-                double absP = Math.Abs(p);
-                
-                // Формула из изображения:
-                // l = { 2f(x)³ + 3p², x > |p|
-                //     { |f(x) - p|, 3 < x < |p|
-                //     { (f(x) - p)², x = |p|
-                
-                if (x > absP)
-                {
-                    // 2f(x)³ + 3p²
-                    l = 2 * Math.Pow(fx, 3) + 3 * Math.Pow(p, 2);
-                }
-                else if (Math.Abs(x - absP) < 0.0001) // x = |p|
-                {
-                    // (f(x) - p)²
-                    l = Math.Pow(fx - p, 2);
-                }
-                else if (x > 3 && x < absP)
-                {
-                    // |f(x) - p|
-                    l = Math.Abs(fx - p);
-                }
-                else
-                {
-                    var mainWindow = (Application.Current.ApplicationLifetime 
-                        as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-                    var dilogg = new SimplePage("x не попадает ни в одно условие (x должен быть > 3)");
-                    dilogg.ShowDialog(mainWindow);
-                    return;
-                }
-                
-                FuncTwo_result.Text = l.ToString("F6");
-            }
-            else
-            {
-                var mainWindow = (Application.Current.ApplicationLifetime
-                    as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-                var dialogg = new SimplePage("Введены неверные данные");
-                dialogg.ShowDialog(mainWindow);
-            }
+            ShowDialog("x не попадает ни в одно условие (x должен быть > 3)");
+            return false;
+        }
+
+        FuncTwo_result.Text = l.ToString("F6");
+        return true;
+    } 
+    
+    private void ShowDialog(string message)
+    {
+        var mainWindow = (Application.Current.ApplicationLifetime
+            as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        var dialog = new SimplePage(message);
+        dialog.ShowDialog(mainWindow);
+    }
+    
+
+    private void Find_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(FuncTwo_x.Text) ||
+            string.IsNullOrWhiteSpace(FuncTwo_p.Text) ||
+            string.IsNullOrWhiteSpace(FuncTwo_fx.Text))
+        {
+            ShowDialog("Заполните все поля");
+            return;
+        }
+
+        if (double.TryParse(FuncTwo_x.Text, out double x) &&
+            double.TryParse(FuncTwo_p.Text, out double p) &&
+            double.TryParse(FuncTwo_fx.Text, out double fx))
+        {
+            Calculate(x, p, fx);
+        }
+        else
+        {
+            ShowDialog("Введены неверные данные");
         }
     }
 
