@@ -58,51 +58,20 @@ public partial class FuncThreePage : Page
         };
     }
 
-    private void Find_OnClick(object? sender, RoutedEventArgs e)
+    public bool Calculate(double b, double x0, double xk, double dx)
     {
-        if (String.IsNullOrWhiteSpace(FuncThree_b.Text) || 
-            String.IsNullOrWhiteSpace(FuncThree_x0.Text) || 
-            String.IsNullOrWhiteSpace(FuncThree_xk.Text) || 
-            String.IsNullOrWhiteSpace(FuncThree_dx.Text))
-        {
-            var mainWindow = (Application.Current.ApplicationLifetime
-                as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            var dialogg = new SimplePage("Заполните все поля");
-            dialogg.ShowDialog(mainWindow);
-            return;
-        }
-
-        if (!double.TryParse(FuncThree_b.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double b) || 
-            !double.TryParse(FuncThree_x0.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double x0) || 
-            !double.TryParse(FuncThree_xk.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double xk) || 
-            !double.TryParse(FuncThree_dx.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double dx))
-        {
-            var mainWindow = (Application.Current.ApplicationLifetime
-                as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            var dialogg = new SimplePage("Введены неверные данные");
-            dialogg.ShowDialog(mainWindow);
-            return;
-        }
-
         if (dx <= 0)
         {
-            var mainWindow = (Application.Current.ApplicationLifetime 
-                as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            var dilogg = new SimplePage("dx должен быть больше 0");
-            dilogg.ShowDialog(mainWindow);
-            return;
+            ShowDialog("dx должен быть больше 0");
+            return false;
         }
 
         if (x0 > xk)
         {
-            var mainWindow = (Application.Current.ApplicationLifetime 
-                as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            var dilogg = new SimplePage("x₀ должен быть меньше или равен xₖ");
-            dilogg.ShowDialog(mainWindow);
-            return;
+            ShowDialog("x₀ должен быть меньше или равен xₖ");
+            return false;
         }
 
-        // Формула: y = 0.0025*b*x³ + √x + e^0.82
         StringBuilder results = new StringBuilder();
         results.AppendLine("╔════════════╦════════════════╗");
         results.AppendLine("║     x      ║       y        ║");
@@ -113,26 +82,17 @@ public partial class FuncThreePage : Page
 
         for (double x = x0; x <= xk; x += dx)
         {
-            try
+            if (x < 0)
             {
-                if (x < 0)
-                {
-                    results.AppendLine($"║ {x,10:F2} ║ Не определено  ║");
-                    continue;
-                }
+                results.AppendLine($"║ {x,10:F2} ║ Не определено  ║");
+                continue;
+            }
 
-                // y = 0.0025*b*x³ + √x + e^0.82
-                double y = 0.0025 * b * Math.Pow(x, 3) + Math.Sqrt(x) + Math.Pow(Math.E, 0.82);
-                
-                results.AppendLine($"║ {x,10:F2} ║ {y,14:F6} ║");
-                
-                xValues.Add(x);
-                yValues.Add(y);
-            }
-            catch (Exception ex)
-            {
-                results.AppendLine($"║ {x,10:F2} ║ Ошибка         ║");
-            }
+            double y = 0.0025 * b * Math.Pow(x, 3) + Math.Sqrt(x) + Math.Pow(Math.E, 0.82);
+            results.AppendLine($"║ {x,10:F2} ║ {y,14:F6} ║");
+
+            xValues.Add(x);
+            yValues.Add(y);
         }
 
         results.AppendLine("╚════════════╩════════════════╝");
@@ -141,34 +101,62 @@ public partial class FuncThreePage : Page
         results.AppendLine($"Диапазон: x ∈ [{x0}; {xk}], шаг = {dx}");
 
         FuncThree_result.Text = results.ToString();
-
-        // Построение графика
         UpdateChart(xValues, yValues);
+
+        return true;
+    }
+    
+    private void ShowDialog(string message)
+    {
+        var mainWindow = (Application.Current.ApplicationLifetime
+            as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        var dialog = new SimplePage(message);
+        dialog.ShowDialog(mainWindow);
+    }
+
+    private void Find_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(FuncThree_b.Text) ||
+            string.IsNullOrWhiteSpace(FuncThree_x0.Text) ||
+            string.IsNullOrWhiteSpace(FuncThree_xk.Text) ||
+            string.IsNullOrWhiteSpace(FuncThree_dx.Text))
+        {
+            ShowDialog("Заполните все поля");
+            return;
+        }
+
+        if (!double.TryParse(FuncThree_b.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double b) ||
+            !double.TryParse(FuncThree_x0.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double x0) ||
+            !double.TryParse(FuncThree_xk.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double xk) ||
+            !double.TryParse(FuncThree_dx.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double dx))
+        {
+            ShowDialog("Введены неверные данные");
+            return;
+        }
+
+        Calculate(b, x0, xk, dx);
     }
 
     private void UpdateChart(List<double> xValues, List<double> yValues)
     {
         Series.Clear();
 
-        if (xValues.Count > 0 && yValues.Count > 0)
-        {
-            var values = new List<ObservablePoint>();
-            for (int i = 0; i < xValues.Count; i++)
-            {
-                values.Add(new ObservablePoint(xValues[i], yValues[i]));
-            }
+        if (xValues.Count == 0 || yValues.Count == 0) return;
 
-            Series.Add(new LineSeries<ObservablePoint>
-            {
-                Values = values,
-                Name = "y = 0.0025bx³ + √x + e^0.82",
-                Stroke = new SolidColorPaint(SKColors.Cyan) { StrokeThickness = 3 },
-                Fill = null,
-                GeometrySize = 8,
-                GeometryStroke = new SolidColorPaint(SKColors.Cyan) { StrokeThickness = 3 },
-                GeometryFill = new SolidColorPaint(SKColors.DarkCyan)
-            });
-        }
+        var values = new List<ObservablePoint>();
+        for (int i = 0; i < xValues.Count; i++)
+            values.Add(new ObservablePoint(xValues[i], yValues[i]));
+
+        Series.Add(new LineSeries<ObservablePoint>
+        {
+            Values = values,
+            Name = "y = 0.0025bx³ + √x + e^0.82",
+            Stroke = new SolidColorPaint(SKColors.Cyan) { StrokeThickness = 3 },
+            Fill = null,
+            GeometrySize = 8,
+            GeometryStroke = new SolidColorPaint(SKColors.Cyan) { StrokeThickness = 3 },
+            GeometryFill = new SolidColorPaint(SKColors.DarkCyan)
+        });
     }
 
     private void Clean_OnClick(object? sender, RoutedEventArgs e)
@@ -178,7 +166,6 @@ public partial class FuncThreePage : Page
         FuncThree_xk.Text = "4";
         FuncThree_dx.Text = "0.5";
         FuncThree_result.Text = "";
-        
         Series.Clear();
     }
 
