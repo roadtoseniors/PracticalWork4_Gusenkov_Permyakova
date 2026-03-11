@@ -118,9 +118,48 @@ public sealed class FuncTwoTesting
 public sealed class FuncThreeTesting
 {
     [TestMethod]
+    public void Calculate_ValidInputs_ReturnsCorrectYValue()
+    {
+        // Arrange
+        double b = 2, x0 = 1, xk = 1, dx = 1;
+        double expectedY = 0.0025 * b * Math.Pow(1, 3) + Math.Sqrt(1) + Math.Pow(Math.E, 0.82);
+
+        // Act
+        bool success = FuncThreeCalculator.TryCalculate(b, x0, xk, dx, out var xValues, out var yValues);
+
+        // Assert
+        Assert.IsTrue(success);
+        Assert.AreEqual(1, yValues.Count, "Должна быть ровно одна точка.");
+        Assert.AreEqual(expectedY, yValues[0], 0.000001, "Значение y не совпадает с ожидаемым.");
+    }
     
     [TestMethod]
+    public void Calculate_NegativeXSkipped_OnlyNonNegativePointsReturned()
+    {
+        // Arrange
+        double b = 1, x0 = -1, xk = 1, dx = 1;
+
+        // Act
+        bool success = FuncThreeCalculator.TryCalculate(b, x0, xk, dx, out var xValues, out var yValues);
+
+        // Assert
+        Assert.IsTrue(success);
+        Assert.AreEqual(2, xValues.Count, "Должны быть только точки x=0 и x=1.");
+        Assert.AreEqual(0.0, xValues[0], 0.000001);
+        Assert.AreEqual(1.0, xValues[1], 0.000001);
+    }
     
     [TestMethod]
+    public void Calculate_DxIsZero_ReturnsFalse()
+    {
+        // Arrange
+        double b = 2, x0 = 0, xk = 5, dx = 0;
+
+        // Act
+        bool success = FuncThreeCalculator.TryCalculate(b, x0, xk, dx, out _, out _);
+
+        // Assert
+        Assert.IsFalse(success, "TryCalculate должен вернуть false, когда dx равен нулю.");
+    }
 }
 

@@ -16,12 +16,57 @@ using LiveChartsCore.Defaults;
 
 namespace PracticalWork4_Gusenkov_Permyakova.Pages;
 
+/// <summary>
+/// Содержит чистую математическую логику вычисления функции FuncThree,
+/// изолированную от UI. Используется как в <see cref="FuncThreePage"/>,
+/// так и в unit-тестах.
+/// </summary>
+public static class FuncThreeCalculator
+{
+    /// <summary>
+    /// Вычисляет таблицу значений функции y = 0.0025·b·x³ + √x + e^0.82
+    /// </summary>
+    public static bool TryCalculate(
+        double b, double x0, double xk, double dx,
+        out List<double> xValues, out List<double> yValues)
+    {
+        xValues = new List<double>();
+        yValues = new List<double>();
+
+        if (dx <= 0)
+            return false;
+
+        if (x0 > xk)
+            return false;
+
+        for (double x = x0; x <= xk + 1e-10; x += dx)
+        {
+            if (x < 0) continue;
+
+            double y = 0.0025 * b * Math.Pow(x, 3) + Math.Sqrt(x) + Math.Pow(Math.E, 0.82);
+            xValues.Add(x);
+            yValues.Add(y);
+        }
+
+        return true;
+    }
+}
+
+
 public partial class FuncThreePage : Page
 {
+    /// <summary>Коллекция серий для графика LiveCharts.</summary>
     public ObservableCollection<ISeries> Series { get; set; }
+
+    /// <summary>Настройки оси X графика.</summary>
     public Axis[] XAxes { get; set; }
+
+    /// <summary>Настройки оси Y графика.</summary>
     public Axis[] YAxes { get; set; }
 
+    /// <summary>
+    /// Инициализирует новый экземпляр страницы <see cref="FuncThreePage"/>.
+    /// </summary>
     public FuncThreePage()
     {
         InitializeComponent();
@@ -29,10 +74,13 @@ public partial class FuncThreePage : Page
         DataContext = this;
     }
 
+    /// <summary>
+    /// Инициализирует оси и коллекцию серий графика.
+    /// </summary>
     private void InitializeChart()
     {
         Series = new ObservableCollection<ISeries>();
-        
+
         XAxes = new Axis[]
         {
             new Axis
@@ -58,6 +106,11 @@ public partial class FuncThreePage : Page
         };
     }
 
+    /// <summary>
+    /// Вычисляет таблицу значений y = 0.0025·b·x³ + √x + e^0.82
+    /// для x ∈ [x0; xk] с шагом dx и отображает результат в UI.
+    /// Делегирует математику в <see cref="FuncThreeCalculator.TryCalculate"/>.
+    /// </summary>
     public bool Calculate(double b, double x0, double xk, double dx)
     {
         if (dx <= 0)
@@ -72,27 +125,23 @@ public partial class FuncThreePage : Page
             return false;
         }
 
+        FuncThreeCalculator.TryCalculate(b, x0, xk, dx, out var xValues, out var yValues);
+
         StringBuilder results = new StringBuilder();
         results.AppendLine("╔════════════╦════════════════╗");
         results.AppendLine("║     x      ║       y        ║");
         results.AppendLine("╠════════════╬════════════════╣");
 
-        List<double> xValues = new List<double>();
-        List<double> yValues = new List<double>();
-
-        for (double x = x0; x <= xk; x += dx)
+        int idx = 0;
+        for (double x = x0; x <= xk + 1e-10; x += dx)
         {
             if (x < 0)
             {
                 results.AppendLine($"║ {x,10:F2} ║ Не определено  ║");
                 continue;
             }
-
-            double y = 0.0025 * b * Math.Pow(x, 3) + Math.Sqrt(x) + Math.Pow(Math.E, 0.82);
-            results.AppendLine($"║ {x,10:F2} ║ {y,14:F6} ║");
-
-            xValues.Add(x);
-            yValues.Add(y);
+            results.AppendLine($"║ {x,10:F2} ║ {yValues[idx],14:F6} ║");
+            idx++;
         }
 
         results.AppendLine("╚════════════╩════════════════╝");
@@ -105,7 +154,10 @@ public partial class FuncThreePage : Page
 
         return true;
     }
-    
+
+    /// <summary>
+    /// Отображает модальный диалог с указанным сообщением поверх главного окна.
+    /// </summary>
     private void ShowDialog(string message)
     {
         var mainWindow = (Application.Current.ApplicationLifetime
@@ -114,6 +166,10 @@ public partial class FuncThreePage : Page
         dialog.ShowDialog(mainWindow);
     }
 
+    /// <summary>
+    /// Обработчик нажатия кнопки «Найти».
+    /// Считывает параметры из полей и вызывает <see cref="Calculate"/>.
+    /// </summary>
     private void Find_OnClick(object? sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(FuncThree_b.Text) ||
@@ -137,10 +193,12 @@ public partial class FuncThreePage : Page
         Calculate(b, x0, xk, dx);
     }
 
+    /// <summary>
+    /// Обновляет данные графика новыми точками.
+    /// </summary>
     private void UpdateChart(List<double> xValues, List<double> yValues)
     {
         Series.Clear();
-
         if (xValues.Count == 0 || yValues.Count == 0) return;
 
         var values = new List<ObservablePoint>();
@@ -159,6 +217,10 @@ public partial class FuncThreePage : Page
         });
     }
 
+    /// <summary>
+    /// Обработчик нажатия кнопки «Очистить».
+    /// Сбрасывает поля к значениям по умолчанию и очищает график.
+    /// </summary>
     private void Clean_OnClick(object? sender, RoutedEventArgs e)
     {
         FuncThree_b.Text = "2.3";
@@ -169,8 +231,12 @@ public partial class FuncThreePage : Page
         Series.Clear();
     }
 
+    /// <summary>
+    /// Обработчик нажатия кнопки «Назад».
+    /// Выполняет навигацию на страницу <see cref="NavigationPage"/>.
+    /// </summary>
     private void Back_OnClick(object? sender, RoutedEventArgs e)
     {
-        NavigationService.Navigate(new NavigationPage());
+        this.NavigationService.Navigate(new NavigationPage());
     }
 }
